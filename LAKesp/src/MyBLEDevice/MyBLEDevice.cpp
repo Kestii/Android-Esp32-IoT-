@@ -1,5 +1,13 @@
 #include "MyBLEDevice/MyBLEDevice.h"
 #include <Arduino.h>
+#include "MyIR/MyIRTransmitter.h"
+
+
+
+MyIRTransmitter irTransmitter;
+
+unsigned long lastIRsend = 0;
+const unsigned long time_period = 3000;
 
 class MyServerCallbacks : public BLEServerCallbacks {
     public:
@@ -82,6 +90,9 @@ void MyBLEDevice::initBLE(std::string deviceName) {
     pAdvertising->setScanResponse(true);
     BLEDevice::startAdvertising();
     Serial.println("Started advertising");
+
+    
+
 }
 
 bool MyBLEDevice::sendCommand(const char* command) {
@@ -98,5 +109,10 @@ bool MyBLEDevice::isAuthenticated() {
 void MyBLEDevice::loop() {
     cmdChar->setValue((uint8_t*)&value, 1);
     cmdChar->notify();
-    Serial.println("Sent value: " + String(value));
+    unsigned long now = millis();
+    if(now-lastIRsend >= time_period) {
+    irTransmitter.sendIRCommand("NEC",0, 0x20DF10EF, 32);  // koko data yhdellä arvolla
+        lastIRsend = now;
+        delay(120);
+    }   
 }
