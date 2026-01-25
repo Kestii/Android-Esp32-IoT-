@@ -17,7 +17,7 @@ import com.example.lak.viewmodel.SendBluetoothCommandViewModelFactory
 
 @Composable
 fun SendBluetoothCommandScreen(
-
+    onNavigateToIrLedScreen : ()->Unit
 
 ){
 
@@ -38,6 +38,9 @@ fun SendBluetoothCommandScreen(
         }
         Button(onClick = {viewModel.authenticate("password")}) {
             Text("send another command here")
+        }
+        Button(onClick = {onNavigateToIrLedScreen()}) {
+            Text(text = "Ir led functionality")
         }
 
     }

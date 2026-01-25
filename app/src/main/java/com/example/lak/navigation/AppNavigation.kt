@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.example.lak.ui.screens.HomeScreen
 import com.example.lak.ui.screens.SettingsScreen
 import com.example.lak.ui.screens.BluetoothScreen
+import com.example.lak.ui.screens.IrLedScreen
 import com.example.lak.ui.screens.ScanBtDevicesScreen
 import com.example.lak.ui.screens.SendBluetoothCommandScreen
 import com.example.lak.viewmodel.SendBluetoothCommandViewModel
@@ -35,7 +36,12 @@ fun AppNavigation(){
             ScanBtDevicesScreen()
         }
         composable("bluetoothCommandScreen"){
-            SendBluetoothCommandScreen()
+            SendBluetoothCommandScreen(
+                onNavigateToIrLedScreen = {navController.navigate("irLedScreen")}
+            )
+        }
+        composable("irLedScreen"){
+            IrLedScreen()
         }
 
 
