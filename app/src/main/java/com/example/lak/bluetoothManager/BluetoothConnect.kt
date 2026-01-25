@@ -32,7 +32,7 @@ class BluetoothConnect (
 
 
     private val SERVICE_UUID =
-        UUID.fromString("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+        UUID.fromString("4fafc201-1fb5-459e-8fcc-c5c9c331914e")
 
 
 
@@ -142,15 +142,21 @@ class BluetoothConnect (
                         authCharacteristic = authCharacteristic!!,
                         cmdCharacteristic = cmdCharacteristic!!
                     )
+                    commandManager?.enableNotify()
 
 
                 }
             }
         }
+
+        override fun onCharacteristicChanged(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            value: ByteArray
+        ) {
+            val stringValue = String(value, Charsets.UTF_8)
+            commandManager?.receiveNotify(stringValue)
+
+        }
     }
-
-
-
-
-
 }

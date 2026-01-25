@@ -33,7 +33,7 @@ fun SendBluetoothCommandScreen(
 
     ){
         Spacer(modifier = Modifier.padding(vertical = 20.dp))
-        Button(onClick = {viewModel.sendCommand("x command here")}) {
+        Button(onClick = {viewModel.sendCommand("xxx1")}) {
             Text("Send x command")
         }
         Button(onClick = {viewModel.authenticate("password")}) {
