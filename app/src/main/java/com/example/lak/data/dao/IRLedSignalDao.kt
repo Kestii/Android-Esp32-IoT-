@@ -1,18 +1,25 @@
 package com.example.lak.data.dao
-import android.icu.text.MessagePattern.ArgType.SELECT
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.lak.data.entity.IRLedSignal
+import com.example.lak.data.entity.IrLedSignal
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface IRLedSignalDao {
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertIRLedSignal(irSignal: IRLedSignal)
+    suspend fun insertIRLedSignal(irSignal: IrLedSignal)
 
-    @Query ("SELECT * FROM IrLedSignals")
-    fun getIrLedSignal(name: String)
+    @Query ("SELECT * FROM IrLedSignals WHERE name == :name")
+    suspend fun getIrLedSignalByName (name: String): IrLedSignal
+
+    @Query ("SELECT * FROM irledsignals")
+    fun getAllIrLedSignals(): Flow<List<IrLedSignal>>
+
+
+    @Query ("DELETE FROM IrLedSignals WHERE name == :name")
+    suspend fun deleteIrLedSignalByName(name: String)
 }

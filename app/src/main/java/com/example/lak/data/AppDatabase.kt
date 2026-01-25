@@ -5,10 +5,11 @@ import androidx.room.RoomDatabase
 import com.example.lak.data.dao.BluetoothDeviceDao
 import com.example.lak.data.dao.IRLedSignalDao
 import com.example.lak.data.entity.BluetoothDevice
-import com.example.lak.data.entity.IRLedSignal
+import com.example.lak.data.entity.IrLedSignal
+
 
 @Database(
-    entities = [BluetoothDevice::class, IRLedSignal::class],
+    entities = [BluetoothDevice::class, IrLedSignal::class],
     version = 1,
     exportSchema = false
 )

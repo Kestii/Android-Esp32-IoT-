@@ -3,12 +3,14 @@ package com.example.lak.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.lak.bluetoothManager.BluetoothConnect
+import com.example.lak.model.IrLedSignalDC
+
 
 class IrLedScreenViewModel(
     private val bluetoothConnect : BluetoothConnect
 ): ViewModel() {
-
-    fun addManuallyNewIrLedSignal(){
+    //protocol: String?, address: Long?, command: Long?, numberOfBits: Int?, rawData: String?
+    fun addManuallyNewIrLedSignal(irLedSignal: IrLedSignalDC){ // DC = data class tässä ettei mee sekasi muitte kaa
 
     }
     fun ScanNewIrLedSignal(){

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.lak.MyApplication
+import com.example.lak.model.IrLedSignalDC
 import com.example.lak.viewmodel.IrLedScreenViewModel
 import com.example.lak.viewmodel.IrLedScreenViewModelFactory
 
@@ -39,7 +40,14 @@ fun IrLedScreen(){
     val app = context.applicationContext as MyApplication
     val viewModel: IrLedScreenViewModel = viewModel(factory = IrLedScreenViewModelFactory(app.bluetoothConnect))
     var showSheet by remember { mutableStateOf(false) }
-    var inputText by remember { mutableStateOf("") }
+    var nameOfIrLedSignal by remember { mutableStateOf("") }
+    var irLedProtocolName by remember{mutableStateOf("")}
+    var irLedAddress by remember { mutableStateOf("") }
+    var irLedSignalcommand by remember { mutableStateOf("") }
+    var irLedSignalNumberOfBits by remember { mutableStateOf("") }
+    var irLedSignalRawData by remember { mutableStateOf("") }
+
+
     Column(
         modifier = Modifier.padding(20.dp)
     ){
@@ -61,20 +69,70 @@ fun IrLedScreen(){
                 Spacer(modifier = Modifier.height(8.dp))
 
                 TextField(
-                    value = inputText,
-                    onValueChange = { inputText = it },
-                    label = { Text("Command") },
+                    value = nameOfIrLedSignal,
+                    onValueChange = { nameOfIrLedSignal = it },
+                    label = { Text("IR Led signal name") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
+                TextField(
+                    value = irLedProtocolName,
+                    onValueChange = {irLedProtocolName = it},
+                    label = {Text("Ir Led Protocol")},
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TextField(
+                    value = irLedAddress,
+                    onValueChange = {irLedAddress = it},
+                    label = {Text("Ir Led Address")},
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TextField(
+                    value = irLedSignalcommand,
+                    onValueChange = {irLedSignalcommand = it},
+                    label = {Text("Ir Led Command")},
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TextField(
+                    value = irLedSignalNumberOfBits,
+                    onValueChange = {irLedSignalNumberOfBits = it},
+                    label = {Text("Ir led Number of bits")},
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TextField(
+                    value = irLedSignalRawData,
+                    onValueChange = {irLedSignalRawData = it},
+                    label = {Text("Raw Data")},
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(
                         onClick = {
-                            viewModel.addCommand(inputText)
-                            inputText = ""
+                            val irLedSignalToBeAdded =  IrLedSignalDC(
+                                name = nameOfIrLedSignal,
+                                protocol = irLedProtocolName.ifBlank { null },
+                                address = irLedAddress.toLongOrNull(),
+                                command = irLedSignalcommand.toLongOrNull(),
+                                numberOfBits = irLedSignalNumberOfBits.toIntOrNull(),
+                                rawData = irLedSignalRawData.ifBlank { null })
+                            viewModel.addManuallyNewIrLedSignal(irLedSignalToBeAdded)
+
+                            nameOfIrLedSignal = ""
+                            irLedProtocolName = ""
+                            irLedAddress = ""
+                            irLedSignalcommand =""
+                            irLedSignalNumberOfBits =""
+                            irLedSignalRawData =""
+
                             showSheet = false
                         },
                         modifier = Modifier.weight(1f)
