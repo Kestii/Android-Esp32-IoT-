@@ -14,7 +14,7 @@ class BluetoothScreenViewModel(
     val dao: BluetoothDeviceDao
 ) : ViewModel() {
 
-    // Kaikki tallennetut laitteet päivittyvät automaattisesti UI:hin
+
     val savedDevices: StateFlow<List<BluetoothDevice>> = dao.getBluetoothDevices()
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 

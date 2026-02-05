@@ -10,7 +10,7 @@ import com.example.lak.data.entity.IrLedSignal
 
 @Database(
     entities = [BluetoothDevice::class, IrLedSignal::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

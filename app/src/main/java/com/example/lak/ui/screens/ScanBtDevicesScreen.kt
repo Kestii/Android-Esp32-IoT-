@@ -53,9 +53,9 @@ fun ScanBtDevicesScreen(
     Column(modifier = Modifier.padding(16.dp)) {
         Spacer(modifier = Modifier.padding(vertical = 15.dp))
         Text(text = when(connectionState){
-            BluetoothConnectionState.CONNECTED ->   "Connected ✅"
+            BluetoothConnectionState.CONNECTED ->   "Connected "
             BluetoothConnectionState.CONNECTING -> "Connecting..."
-            BluetoothConnectionState.DISCONNECTED -> "Not connected ❌"
+            BluetoothConnectionState.DISCONNECTED -> "Not connected "
         })
         Button(onClick = {bluetoothConnect.scanBluetoothDevices()}) {
             Text(text = "find bluetoothDevices")

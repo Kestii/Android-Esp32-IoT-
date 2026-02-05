@@ -11,7 +11,8 @@ class MyApplication : Application() {
             this,
             AppDatabase::class.java,
             "app_database"
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
     }
     lateinit var bluetoothConnect: BluetoothConnect
     override fun onCreate(){
@@ -21,5 +22,6 @@ class MyApplication : Application() {
             onDeviceFound = {},
             onConnectionStateChanged = {}
         )
+
     }
 }
