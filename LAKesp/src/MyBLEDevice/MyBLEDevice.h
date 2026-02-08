@@ -25,8 +25,6 @@ private:
     BLECharacteristic* authChar = nullptr;
     BLECharacteristic* cmdChar = nullptr;
     bool authenticated = false;
-    CommandCallbacks* cmdCallback = nullptr;  
-    CommandCallbacks* authCallback = nullptr; 
     
     
 public:
@@ -37,6 +35,7 @@ public:
     bool sendCommand(const char* command);
     bool isAuthenticated();
     uint8_t value = 1;
+    void handle_command(BLECharacteristic* pChar, const std::string& command_value); 
   
 
     void loop();

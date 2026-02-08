@@ -9,6 +9,8 @@ MyIRTransmitter irTransmitter;
 unsigned long lastIRsend = 0;
 const unsigned long time_period = 3000;
 
+
+
 class MyServerCallbacks : public BLEServerCallbacks {
     public:
     void onConnect(BLEServer* pServer) override {
@@ -21,7 +23,6 @@ class MyServerCallbacks : public BLEServerCallbacks {
 };
 
 
-
 // lukee kun tulee komento
 class CommandCallbacks : public BLECharacteristicCallbacks {
     MyBLEDevice* device;
@@ -32,25 +33,24 @@ public:
 
     void onWrite(BLECharacteristic* pChar) override {
         std::string value = pChar->getValue();
-         
-        
-       
 
         Serial.print("UUID: ");
         Serial.println(pChar->getUUID().toString().c_str());
         Serial.print("Data: ");
         Serial.print("Komento vastaanotettu: ");
         Serial.println(value.c_str());
-
-        if(device != nullptr && pChar->getUUID().toString() == CHARACTERISTIC_UUID) {
-           
-        }
+        device->handle_command(
+            pChar, 
+            value
+        );
     }
 };
 
 MyBLEDevice::MyBLEDevice() {}
 
 MyBLEDevice::~MyBLEDevice() {}
+
+
 
 void MyBLEDevice::initBLE(std::string deviceName) {
 
@@ -60,6 +60,7 @@ void MyBLEDevice::initBLE(std::string deviceName) {
     pServer->setCallbacks(new MyServerCallbacks());
     BLEService* pService = pServer->createService(SERVICE_UUID);
 
+    CommandCallbacks* commonCallback = new CommandCallbacks(this);
 
     cmdChar = pService->createCharacteristic(
         CHARACTERISTIC_UUID,
@@ -68,8 +69,8 @@ void MyBLEDevice::initBLE(std::string deviceName) {
         BLECharacteristic::PROPERTY_NOTIFY|
         BLECharacteristic::PROPERTY_INDICATE
     );   
-    cmdCallback = new CommandCallbacks(this); // 🔹MUUTETTU
-    cmdChar->setCallbacks(cmdCallback);
+    
+    cmdChar->setCallbacks(commonCallback);
     cmdChar->addDescriptor(new BLE2902());
 
      authChar = pService->createCharacteristic(
@@ -79,9 +80,10 @@ void MyBLEDevice::initBLE(std::string deviceName) {
         BLECharacteristic::PROPERTY_NOTIFY
     );
     
-    authCallback = new CommandCallbacks(this); // 🔹MUUTETTU
-    authChar->setCallbacks(authCallback);
+    
+    authChar->setCallbacks(commonCallback);
     authChar->addDescriptor(new BLE2902());
+
 
     pService->start();
 
@@ -116,3 +118,11 @@ void MyBLEDevice::loop() {
         delay(120);
     }   
 }
+
+void MyBLEDevice::handle_command(BLECharacteristic* pChar, const std::string& command_value){
+    if (1){
+
+    }
+
+}
+
